@@ -74,7 +74,8 @@ class Comment extends Model
             $data = $this->where('answer_id',rq('answer_id'))->get();
         }
 
-        return ['status' => 1, 'data' => $data->keyBy('id')];
+        $data = $data->keyBy('id');
+        return ['status' => 1, 'data' => $data];
     }
 
     //删除评论的api
