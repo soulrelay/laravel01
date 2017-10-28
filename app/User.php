@@ -140,6 +140,9 @@ class User extends Model
     //找回密码api
     public function retrieve_password()
     {
+        if ($this->is_robot())
+            return err('max frequency reached');
+
         if (!rq('phone')) {
             return err('phone is required');
         }
@@ -151,6 +154,7 @@ class User extends Model
         $user->phone_captcha = $captcha;
         if ($user->save()) {
             $this->send_sms();
+            $this->update_robot_time();
             return suc();
         } else {
             return err('db update failed');
@@ -160,6 +164,9 @@ class User extends Model
     //验证找回密码api
     public function validate_retrieve_password()
     {
+        if ($this->is_robot(2))
+            return err('max frequency reached');
+
         if (!rq('phone') || !rq('phone_captcha') || !rq('new_password')) {
             return err('phone, new_password and phone_captcha are required');
         }
@@ -169,12 +176,28 @@ class User extends Model
             'phone_captcha' => rq('phone_captcha')
         ])->first();
 
-        if(!$user)
+        if (!$user)
             return err('invalid phone or invalid phone_captcha');
 
         $user->password = bcrypt(rq('new_password'));
+        $this->update_robot_time();
         return $user->save() ? suc()
-            :err('db update failed');
+            : err('db update failed');
+    }
+
+    public function is_robot($time = 10)
+    {
+        if (!session('last_active_time'))
+            return false;
+        $current_time = time();
+        $last_active_time = session('last_active_time');
+        return ($current_time - $last_active_time < 10);
+    }
+
+    public function update_robot_time()
+    {
+        //为下一次机器人调用检查做准备
+        session().set('last_active_time', time());
     }
 
     //生成验证码
