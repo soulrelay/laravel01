@@ -82,8 +82,14 @@ Route::any('api/logout', function () {
     return user_ins()->logout();
 });
 
+//修改密码
 Route::any('api/changepassword', function () {
     return user_ins()->change_password();
+});
+
+//找回密码
+Route::any('api/retrievepassword', function () {
+    return user_ins()->retrieve_password();
 });
 
 

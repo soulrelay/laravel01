@@ -137,6 +137,38 @@ class User extends Model
             : err('db update failed');
     }
 
+    //找回密码api
+    public function retrieve_password()
+    {
+        if (!rq('phone')) {
+            return err('phone is required');
+        }
+
+        $user = $this->where('phone', rq('phone'))->first();
+        if (!$user) return err('invalid phone number');
+
+        $captcha = $this->generate_captcha();
+        $user->phone_captcha = $captcha;
+        if ($user->save()) {
+            $this->send_sms();
+            return suc();
+        } else {
+            return err('db update failed');
+        }
+    }
+
+    //生成验证码
+    public function generate_captcha()
+    {
+        return rand(1000, 9999);
+    }
+
+    //发送短信
+    public function send_sms()
+    {
+        return true;
+    }
+
     //登出api
     public function logout()
     {
