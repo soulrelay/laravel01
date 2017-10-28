@@ -31,6 +31,11 @@ function answer_ins()
     return new App\Answer();
 }
 
+function comment_ins()
+{
+    return new App\Comment();
+}
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -69,6 +74,10 @@ Route::any('api/question/read', function () {
     return question_ins()->read();
 });
 
+Route::any('api/question/remove', function () {
+    return question_ins()->remove();
+});
+
 Route::any('api/answer/add', function () {
     return answer_ins()->add();
 });
@@ -80,3 +89,21 @@ Route::any('api/answer/change', function () {
 Route::any('api/answer/read', function () {
     return answer_ins()->read();
 });
+
+Route::any('api/comment/add', function () {
+    return comment_ins()->add();
+});
+
+Route::any('api/comment/change', function () {
+    return comment_ins()->change();
+});
+
+Route::any('api/comment/read', function () {
+    return comment_ins()->read();
+});
+
+Route::any('api/comment/remove', function () {
+    return comment_ins()->remove();
+});
+
+
