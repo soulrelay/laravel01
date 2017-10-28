@@ -21,7 +21,7 @@ class User extends Model
         $has_username_and_password = $this->has_username_and_password();
         //检查用户名和密码是否为空
         if (!$has_username_and_password) {
-            return ['status' => 0, 'msg' => '用户名和密码皆不可为空！'];
+            return ['status' => 0, 'msg' => 'username and password are required!'];
         }
 
         $username = $has_username_and_password[0];
@@ -33,7 +33,7 @@ class User extends Model
             ->exists();
 
         if ($user_exists) {
-            return ['status' => 0, 'msg' => '用户名已存在'];
+            return ['status' => 0, 'msg' => 'username not exists'];
         }
 
         //加密密码
@@ -64,7 +64,7 @@ class User extends Model
         $has_username_and_password = $this->has_username_and_password();
         //检查用户名和密码是否为空
         if (!$has_username_and_password) {
-            return ['status' => 0, 'msg' => '用户名和密码皆不可为空！'];
+            return ['status' => 0, 'msg' => 'username and password are required!'];
         }
 
         $username = $has_username_and_password[0];
@@ -74,12 +74,12 @@ class User extends Model
         $user = $this->where('username', $username)->first();
 
         if (!$user)
-            return ['status' => 0, 'msg' => '用户不存在！'];
+            return ['status' => 0, 'msg' => 'username not exits!'];
 
         //检查密码是否正确
         $hashed_password = $user->password;
         if(!Hash::check($password,$hashed_password)){
-            return ['status' => 0, 'msg' => '密码有误！'];
+            return ['status' => 0, 'msg' => 'invalid password!'];
 
         }
 
@@ -110,6 +110,28 @@ class User extends Model
     public function is_logined_in(){
         //如果session存在user_id就返回user_id,否则就返回false
         return session('user_id')?:false;
+    }
+
+    public function change_password(){
+        //检查是否登录
+        if (!$this->is_logined_in()) {
+            return ['status' => 0, 'msg' => 'login required'];
+        }
+
+        if (!rq('old_password') || !rq('new_password')) {
+            return ['status' => 0, 'msg' => 'old_password and new_password is required'];
+        }
+
+        $user=$this->find(session('user_id'));
+
+        if(!Hash::check(rq('old_password'),$user->password)){
+            return ['status' => 0, 'msg' => 'invalid old_password'];
+        }
+
+        $user->password = bcrypt(rq('new_password'));
+        return $user->save()?
+            ['status' => 1]
+            :['status' => 0, 'msg' => 'db update failed'];
     }
 
     //登出api

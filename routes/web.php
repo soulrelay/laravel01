@@ -69,6 +69,11 @@ Route::any('api/logout', function () {
     return user_ins()->logout();
 });
 
+Route::any('api/changepassword', function () {
+    return user_ins()->change_password();
+});
+
+
 //question相关接口
 Route::any('api/question/add', function () {
     return question_ins()->add();
