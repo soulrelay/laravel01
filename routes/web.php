@@ -56,3 +56,7 @@ Route::any('api/question/add', function () {
     return question_ins()->add();
 });
 
+Route::any('api/question/change', function () {
+    return question_ins()->change();
+});
+

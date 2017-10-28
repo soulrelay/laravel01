@@ -30,4 +30,39 @@ class Question extends Model
             ['status' => 1, 'id' => $this->id]:
             ['status' => 0, 'msg' => 'db insert failed'];
     }
+
+    public function change(){
+        //检查是否登录
+        if(!user_ins()->is_logined_in()){
+            return ['status' => 0, 'msg' => 'login required'];
+        }
+
+        if(!rq('id')){
+            return ['status' => 0, 'msg' => 'id is required'];
+        }
+
+        $question = $this->find(rq('id'));
+
+        if(!$question){
+            return ['status' => 0, 'msg' => 'question not exits'];
+        }
+
+        if($question->user_id != session('user_id')){
+            return ['status' => 0, 'msg' => 'permission denied'];
+        }
+
+        if(rq('title')){
+            $question->title = rq('title');
+        }
+
+        if(rq('desc')){
+            $question->desc = rq('desc');
+        }
+        //dd($question);
+
+        return $question->save() ?
+            ['status' => 1]:
+            ['status' => 0, 'msg' => 'db update failed'];
+
+    }
 }
