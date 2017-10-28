@@ -64,3 +64,6 @@ Route::any('api/question/read', function () {
     return question_ins()->read();
 });
 
+Route::any('api/question/remove', function () {
+    return question_ins()->remove();
+});

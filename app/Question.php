@@ -91,4 +91,31 @@ class Question extends Model
         return ['status' => 1, 'data' => $r];
 
     }
+
+    //删除问题api
+    public function remove()
+    {
+        //检查是否登录
+        if (!user_ins()->is_logined_in()) {
+            return ['status' => 0, 'msg' => 'login required'];
+        }
+
+        if (!rq('id')) {
+            return ['status' => 0, 'msg' => 'id is required'];
+        }
+
+        $question = $this->find(rq('id'));
+
+        if (!$question) {
+            return ['status' => 0, 'msg' => 'question not exists'];
+        }
+
+        if (session('user_id') != $question->user_id) {
+            return ['status' => 0, 'msg' => 'permission denied'];
+        }
+
+        return $question->delete() ? ['status' =>1]
+            : ['status' => 0, 'msg' => 'db delete failed'];
+
+    }
 }
