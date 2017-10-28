@@ -122,7 +122,7 @@ class User extends Model
         }
 
         if (!rq('old_password') || !rq('new_password')) {
-            return err('old_password and new_password is required');
+            return err('old_password and new_password are required');
         }
 
         $user = $this->find(session('user_id'));
@@ -155,6 +155,26 @@ class User extends Model
         } else {
             return err('db update failed');
         }
+    }
+
+    //验证找回密码api
+    public function validate_retrieve_password()
+    {
+        if (!rq('phone') || !rq('phone_captcha') || !rq('new_password')) {
+            return err('phone, new_password and phone_captcha are required');
+        }
+
+        $user = $this->where([
+            'phone' => rq('phone'),
+            'phone_captcha' => rq('phone_captcha')
+        ])->first();
+
+        if(!$user)
+            return err('invalid phone or invalid phone_captcha');
+
+        $user->password = bcrypt(rq('new_password'));
+        return $user->save() ? suc()
+            :err('db update failed');
     }
 
     //生成验证码

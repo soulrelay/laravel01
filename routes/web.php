@@ -88,8 +88,13 @@ Route::any('api/changepassword', function () {
 });
 
 //找回密码
-Route::any('api/retrievepassword', function () {
+Route::any('api/retrieve_password', function () {
     return user_ins()->retrieve_password();
+});
+
+//找回密码
+Route::any('api/validate_retrieve_password', function () {
+    return user_ins()->validate_retrieve_password();
 });
 
 
