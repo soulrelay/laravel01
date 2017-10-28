@@ -56,22 +56,23 @@ class User extends Model
     }
 
     //获取用户信息api
-    public function read(){
-        if(!rq('id')){
+    public function read()
+    {
+        if (!rq('id')) {
             return err('required id');
         }
-        $get = ['id','username','avatar_url','intro'];
-        $user = $this->find(rq('id'),$get);
+        $get = ['id', 'username', 'avatar_url', 'intro'];
+        $user = $this->find(rq('id'), $get);
         $data = $user->toArray();
 
-        $answer_count = answer_ins()->where('user_id',rq('id'))->count();
-        $question_count = question_ins()->where('user_id',rq('id'))->count();
+        $answer_count = answer_ins()->where('user_id', rq('id'))->count();
+        $question_count = question_ins()->where('user_id', rq('id'))->count();
 
         $data['answer_count'] = $answer_count;
 
         $data['question_count'] = $question_count;
 
-
+//使用关联表 得事先建立关联表  否则会报错
 //        $answer_count = $user->answers()->count();
 //        $question_count = $user->questions()->count();
         return suc($data);
@@ -219,7 +220,7 @@ class User extends Model
     public function update_robot_time()
     {
         //为下一次机器人调用检查做准备
-        session().set('last_active_time', time());
+        session() . set('last_active_time', time());
     }
 
     //生成验证码
