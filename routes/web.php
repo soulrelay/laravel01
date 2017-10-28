@@ -10,10 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+function paginate($page = 1, $limit = 16)
+{
+    $skip = ($page ? $page - 1 : 0) * $limit;
+    return [$limit, $skip];
 
-function rq($key = null, $default = null){
-    if(!$key) return Request::all();
-    return Request::get($key,$default);
+}
+
+function rq($key = null, $default = null)
+{
+    if (!$key) return Request::all();
+    return Request::get($key, $default);
 }
 
 function user_ins()
@@ -116,5 +123,8 @@ Route::any('api/comment/read', function () {
 Route::any('api/comment/remove', function () {
     return comment_ins()->remove();
 });
+
+//通用api
+Route::any('api/timeline', 'CommonController@timeline');
 
 

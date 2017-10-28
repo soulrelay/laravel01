@@ -75,11 +75,8 @@ class Question extends Model
             return ['status' => 1, 'data' => $this->find(rq('id'))];
 
         //limit条件
-        $limit = rq('limit') ?: 15;
-        //$skip = ((rq('page')?:1)-1) * $limit;
         //skip条件 用于分页
-        $skip = (rq('page') ? rq('page') - 1 : 0) * $limit;
-
+        list($limit, $skip) = paginate(rq('page', rq('limit')));
 
         //构建query并返回collection数据
         $r = $this->orderBy('created_at')
@@ -114,7 +111,7 @@ class Question extends Model
             return ['status' => 0, 'msg' => 'permission denied'];
         }
 
-        return $question->delete() ? ['status' =>1]
+        return $question->delete() ? ['status' => 1]
             : ['status' => 0, 'msg' => 'db delete failed'];
 
     }
