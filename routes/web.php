@@ -30,9 +30,9 @@ function err($msg = null)
 
 function suc($data_to_merge = null)
 {
-    $data = ['status' => 1];
+    $data = ['status' => 1, 'data' => []];
     if ($data_to_merge)
-        $data = array_merge($data, $data_to_merge);
+        $data['data'] = array_merge($data['data'], $data_to_merge);
     return $data;
 }
 
@@ -72,6 +72,10 @@ Route::any('api', function () {
 
 Route::any('api/signup', function () {
     return user_ins()->signup();
+});
+
+Route::any('api/read', function () {
+    return user_ins()->read();
 });
 
 Route::any('api/login', function () {
