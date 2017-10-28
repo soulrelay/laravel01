@@ -23,6 +23,19 @@ function rq($key = null, $default = null)
     return Request::get($key, $default);
 }
 
+function err($msg = null)
+{
+    return ['status' => 0, 'msg' => $msg];
+}
+
+function suc($data_to_merge = null)
+{
+    $data = ['status' => 1];
+    if ($data_to_merge)
+        $data = array_merge($data, $data_to_merge);
+    return $data;
+}
+
 function user_ins()
 {
     return new App\User;

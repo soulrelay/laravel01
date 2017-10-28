@@ -11,37 +11,37 @@ class Comment extends Model
     {
         //检查用户是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('content')) {
-            return ['status' => 0, 'msg' => 'empty content'];
+            return err('empty content');
         }
 
         if (!rq('question_id') && !rq('answer_id') || //none
             rq('question_id') && rq('answer_id') //all
         ) {
-            return ['status' => 0, 'msg' => 'question_id or answer_id is required'];
+            return err('question_id or answer_id is required');
         }
 
         if (rq('question_id')) {
             $question = question_ins()->find(rq('question_id'));
             if (!$question)
-                return ['status' => 0, 'msg' => 'question not exists'];
+                return err('question not exists');
             $this->question_id = rq['question_id'];
         } else {
             $answer = answer_ins()->find(rq('answer_id'));
             if (!$answer)
-                return ['status' => 0, 'msg' => 'answer not exists'];
+                return err('answer not exists');
             $this->answer_id = rq('answer_id');
         }
 
         if (rq('reply_to')) {
             $target = $this->find(rq('reply_to'));
             if (!$target)
-                return ['status' => 0, 'msg' => 'target comment not exists'];
+                return err('target comment not exists');
             if ($target->user_id == session('user_id'))
-                return ['status' => 0, 'msg' => 'cannot reply_to yourself'];
+                return err('cannot reply_to yourself');
             $this->reply_to = rq('reply_to');
         }
 
@@ -49,8 +49,8 @@ class Comment extends Model
         $this->user_id = session('user_id');
 
         return $this->save() ?
-            ['status' => 1, 'id' => $this->id] :
-            ['status' => 0, 'msg' => 'db insert failed'];
+            suc(['id' => $this->id]):
+            err('db insert failed');
     }
 
     public function change()
@@ -61,21 +61,21 @@ class Comment extends Model
     public function read()
     {
         if (!rq('question_id') && !rq('answer_id')){
-            return ['status' => 0, 'msg' => 'question_id or answer_id is required'];
+            return err('question_id or answer_id is required');
         }
         if (rq('question_id')) {
           $question = question_ins()->find(rq('question_id'));
-          if(!$question)  return ['status' => 0, 'msg' => 'question not exists'];
+          if(!$question)  return err('question not exists');
             $data = $this->where('question_id',rq('question_id'))->get();
         }
         else {
             $answer = question_ins()->find(rq('answer_id'));
-            if(!$answer)  return ['status' => 0, 'msg' => 'answer not exists'];
+            if(!$answer)  return err('answer not exists');
             $data = $this->where('answer_id',rq('answer_id'))->get();
         }
 
         $data = $data->keyBy('id');
-        return ['status' => 1, 'data' => $data];
+        return suc(['data' => $data]);
     }
 
     //删除评论的api
@@ -83,27 +83,27 @@ class Comment extends Model
     {
         //检查用户是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('id')) {
-            return ['status' => 0, 'msg' => 'id is required'];
+            return err('id is required');
         }
 
         $comment = $this->find(rq('id'));
         if (!$comment) {
-            return ['status' => 0, 'msg' => 'comment not exists'];
+            return err('comment not exists');
         }
 
         if (session('user_id') != $comment->user_id) {
-            return ['status' => 0, 'msg' => 'permission denied'];
+            return err('permission denied');
         }
 
         //删除回复该评论的评论
         $this->where('reply_to', rq('id'))->delete();
         //再删除该评论
-        return $comment->delete() ? ['status' => 1]
-            : ['status' => 0, 'msg' => 'db delete failed'];
+        return $comment->delete() ? suc(null)
+            : err('db delete failed');
 
     }
 }

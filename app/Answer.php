@@ -12,16 +12,16 @@ class Answer extends Model
 
         //检查用户是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('question_id') || !rq('content')) {
-            return ['status' => 0, 'msg' => 'question_id and content is required'];
+            return err('question_id and content is required');
         }
 
         $question = question_ins()->find(rq('question_id'));
         if (!$question) {
-            return ['status' => 0, 'msg' => 'question not exists'];
+            return err('question not exists');
         }
 
         //检查是否重复回答
@@ -30,7 +30,7 @@ class Answer extends Model
             ->count();
 
         if ($answered) {
-            return ['status' => 0, 'msg' => 'duplicate answers'];
+            return err('duplicate answers');
         }
 
         $this->content = rq('content');
@@ -38,8 +38,8 @@ class Answer extends Model
         $this->user_id = rq('user_id');
 
         return $this->save() ?
-            ['status' => 1, 'id' => $this->id] :
-            ['status' => 0, 'msg' => 'db insert failed'];
+            suc(['id' => $this->id]) :
+            err('db insert failed');
     }
 
     //更新回答api
@@ -47,23 +47,23 @@ class Answer extends Model
     {
         //检查用户是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('id') || !rq('content')) {
-            return ['status' => 0, 'msg' => 'id and content is required'];
+            return err('id and content is required');
         }
 
         $answer = $this->find(rq('id'));
         if ($answer->user_id != session('user_id')) {
-            return ['status' => 0, 'msg' => 'permission denied'];
+            return err('permission denied');
         }
 
         $answer->content = rq('content');
 
         return $answer->save() ?
-            ['status' => 1]
-            : ['status' => 0, 'msg' => 'db update failed'];
+            suc(null)
+            : err('db update failed');
 
     }
 
@@ -71,27 +71,27 @@ class Answer extends Model
     public function read()
     {
         if (!rq('id') && !rq('question_id')) {
-            return ['status' => 0, 'msg' => 'id or question_id is required'];
+            return err('id or question_id is required');
         }
 
         if (rq('id')) {
             $answer = $this->find(rq('id'));
             if(!$answer){
-                return ['status' => 0, 'msg' => 'answer not exists'];
+                return err('answer not exists');
             }
 
             return ['status' => 1, 'data' => $answer];
         }
 
         if(!question_ins()->find(rq('question_id'))){
-            return ['status' => 0, 'msg' => 'question not exists'];
+            return err('question not exists');
         }
 
         $answers = $this->where('question_id',rq('question_id'))
             ->get()
             ->keyBy('id');
 
-        return ['status' => 1, 'data' => $answers];
+        return suc(['data' => $answers]);
     }
 
     public function remove(){
@@ -103,14 +103,14 @@ class Answer extends Model
     {
         //检查用户是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
         if (!rq('id') || !rq('vote')) {
-            return ['status' => 0, 'msg' => 'id and vote are required'];
+            return err('id and vote are required');
         }
 
         $answer = $this->find(rq('id'));
-        if(!$answer) return ['status' => 0, 'msg' => 'answer not exists'];
+        if(!$answer) return err('answer not exists');
 
         /*1为赞同 2为反对*/
         $vote = rq('vote') <= 1 ? 1: 2;
@@ -124,7 +124,7 @@ class Answer extends Model
        //在连接表中增加数据
         $answer->users()->attach(session('user_id'),['vote' => $vote]);
 
-        return ['status' => 1];
+        return suc(null);
     }
 
     public function users()

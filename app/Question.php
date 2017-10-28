@@ -12,12 +12,12 @@ class Question extends Model
         //dd(rq());
         //检查是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         //检查是否存在标题
         if (!rq('title')) {
-            return ['status' => 0, 'msg' => 'required title'];
+            return err('required title');
         }
 
         $this->title = rq('title');
@@ -27,29 +27,29 @@ class Question extends Model
         }
 
         return $this->save() ?
-            ['status' => 1, 'id' => $this->id] :
-            ['status' => 0, 'msg' => 'db insert failed'];
+            suc(['id' => $this->id] ):
+            err('db insert failed');
     }
 
     public function change()
     {
         //检查是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('id')) {
-            return ['status' => 0, 'msg' => 'id is required'];
+            return err('id is required');
         }
 
         $question = $this->find(rq('id'));
 
         if (!$question) {
-            return ['status' => 0, 'msg' => 'question not exits'];
+            return err('question not exits');
         }
 
         if ($question->user_id != session('user_id')) {
-            return ['status' => 0, 'msg' => 'permission denied'];
+            return err('permission denied');
         }
 
         if (rq('title')) {
@@ -62,8 +62,8 @@ class Question extends Model
         //dd($question);
 
         return $question->save() ?
-            ['status' => 1] :
-            ['status' => 0, 'msg' => 'db update failed'];
+            suc(null) :
+            err('db update failed');
 
     }
 
@@ -85,7 +85,7 @@ class Question extends Model
             //->get(['id','title','desc','user_id','created_at','updated_at']);
             ->get();
         //->keyBy('id');
-        return ['status' => 1, 'data' => $r];
+        return suc(['data' => $r]);
 
     }
 
@@ -94,25 +94,25 @@ class Question extends Model
     {
         //检查是否登录
         if (!user_ins()->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('id')) {
-            return ['status' => 0, 'msg' => 'id is required'];
+            return err('id is required');
         }
 
         $question = $this->find(rq('id'));
 
         if (!$question) {
-            return ['status' => 0, 'msg' => 'question not exists'];
+            return err('question not exists');
         }
 
         if (session('user_id') != $question->user_id) {
-            return ['status' => 0, 'msg' => 'permission denied'];
+            return err('permission denied');
         }
 
-        return $question->delete() ? ['status' => 1]
-            : ['status' => 0, 'msg' => 'db delete failed'];
+        return $question->delete() ? suc(null)
+            : err('db delete failed');
 
     }
 }

@@ -21,7 +21,7 @@ class User extends Model
         $has_username_and_password = $this->has_username_and_password();
         //检查用户名和密码是否为空
         if (!$has_username_and_password) {
-            return ['status' => 0, 'msg' => 'username and password are required!'];
+            return err('username and password are required!');
         }
 
         $username = $has_username_and_password[0];
@@ -33,7 +33,7 @@ class User extends Model
             ->exists();
 
         if ($user_exists) {
-            return ['status' => 0, 'msg' => 'username not exists'];
+            return err('username not exists');
         }
 
         //加密密码
@@ -47,10 +47,10 @@ class User extends Model
         $user->username = $username;
 
         if ($user->save()) {
-            return ['status' => 1, 'id' => $user->id];
+            return suc(['id' => $user->id]);
 
         } else {
-            return ['status' => 0, 'msg' => 'db insert failed!'];
+            return err('db insert failed!');
 
         }
     }
@@ -64,7 +64,7 @@ class User extends Model
         $has_username_and_password = $this->has_username_and_password();
         //检查用户名和密码是否为空
         if (!$has_username_and_password) {
-            return ['status' => 0, 'msg' => 'username and password are required!'];
+            return err('username and password are required!');
         }
 
         $username = $has_username_and_password[0];
@@ -74,22 +74,22 @@ class User extends Model
         $user = $this->where('username', $username)->first();
 
         if (!$user)
-            return ['status' => 0, 'msg' => 'username not exits!'];
+            return err('username not exits!');
 
         //检查密码是否正确
         $hashed_password = $user->password;
-        if(!Hash::check($password,$hashed_password)){
-            return ['status' => 0, 'msg' => 'invalid password!'];
+        if (!Hash::check($password, $hashed_password)) {
+            return err('invalid password!');
 
         }
 
         //将用户信息写入session
-        session()->put('username',$user->username);
-        session()->put('user_id',$user->id);
+        session()->put('username', $user->username);
+        session()->put('user_id', $user->id);
 
         //dd(session()->all());
 
-        return ['status' => 1, 'id' => $user->id];
+        return suc(['id' => $user->id]);
 
     }
 
@@ -107,31 +107,34 @@ class User extends Model
     }
 
     //检测用户是否登录
-    public function is_logined_in(){
+    public function is_logined_in()
+    {
         //如果session存在user_id就返回user_id,否则就返回false
-        return session('user_id')?:false;
+        return session('user_id') ?: false;
     }
 
-    public function change_password(){
+    //修改密码api
+    public function change_password()
+    {
         //检查是否登录
         if (!$this->is_logined_in()) {
-            return ['status' => 0, 'msg' => 'login required'];
+            return err('login required');
         }
 
         if (!rq('old_password') || !rq('new_password')) {
-            return ['status' => 0, 'msg' => 'old_password and new_password is required'];
+            return err('old_password and new_password is required');
         }
 
-        $user=$this->find(session('user_id'));
+        $user = $this->find(session('user_id'));
 
-        if(!Hash::check(rq('old_password'),$user->password)){
-            return ['status' => 0, 'msg' => 'invalid old_password'];
+        if (!Hash::check(rq('old_password'), $user->password)) {
+            return err('invalid old_password');
         }
 
         $user->password = bcrypt(rq('new_password'));
-        return $user->save()?
-            ['status' => 1]
-            :['status' => 0, 'msg' => 'db update failed'];
+        return $user->save() ?
+            suc(null)
+            : err('db update failed');
     }
 
     //登出api
@@ -151,7 +154,7 @@ class User extends Model
 //        session()->put('person.friend.hanmeimei.age','20');
 //
 //        dd(session()->all());
-        return ['status' => 1];
+        return suc(null);
 
         //return redirect('/');
 
