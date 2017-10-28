@@ -62,6 +62,7 @@ Route::any('api/logout', function () {
     return user_ins()->logout();
 });
 
+//question相关接口
 Route::any('api/question/add', function () {
     return question_ins()->add();
 });
@@ -78,6 +79,7 @@ Route::any('api/question/remove', function () {
     return question_ins()->remove();
 });
 
+//answer相关接口
 Route::any('api/answer/add', function () {
     return answer_ins()->add();
 });
@@ -90,6 +92,15 @@ Route::any('api/answer/read', function () {
     return answer_ins()->read();
 });
 
+Route::any('api/answer/remove', function () {
+    return answer_ins()->remove();
+});
+
+Route::any('api/answer/vote', function () {
+    return answer_ins()->vote();
+});
+
+//comment相关接口
 Route::any('api/comment/add', function () {
     return comment_ins()->add();
 });
