@@ -1,11 +1,32 @@
 ;(function () {
     'use strict';
 
-    angular.module('shuaihu', [])
-        .config(function ($interpolateProvider) {
+    angular.module('shuaihu', [
+        'ui.router',
+    ])
+        .config(function ($interpolateProvider,
+                          $stateProvider,
+                          $urlRouterProvider) {
             $interpolateProvider.startSymbol('[:');
             $interpolateProvider.endSymbol(':]');
+
+            $urlRouterProvider.otherwise('/home');
+
+            $stateProvider
+                .state('home',{
+                    url:'/home',
+                    templateUrl: 'home.tpl'
+                })
+                .state('login',{
+                    url:'/login',
+                    templateUrl: 'login.tpl'
+
+                })
+
         })
+
+
+
         .controller('TestController', function ($scope) {
             $scope.name = 'Test';
         })
