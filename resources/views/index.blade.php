@@ -20,24 +20,27 @@
 
 </head>
 <body>
-帅乎
-<div ng-controller="ParentController">
+<div class="navbar clearfix">
+    <div class="container">
+        <div class="fl">
+            <div class="navbar-item brand">帅乎</div>
+            <div class="navbar-item">
+                <input type="text">
+            </div>
 
-    <div ng-controller="TestController">
-        name1是[: name :]
+        </div>
+        <div class="fr">
+            <a ui-sref="home" class="navbar-item">首页</a>
+            <a ui-sref="login" class="navbar-item">登录</a>
+            <a ui-sref="signup" class="navbar-item">注册</a>
+        </div>
     </div>
 
-    <div>
-        name2是[: name :]
-    </div>
 
 </div>
 
-<div class="navbar">导航栏</div>
-<a href="" ui-sref="home">首页</a>
-<a href="" ui-sref="login">登录</a>
 
-<div>
+<div class="page">
     <div ui-view></div>
 
 </div>
@@ -45,16 +48,23 @@
 </body>
 
 <script type="text/ng-template" id="home.tpl">
-    <div>
-        <h1>首页</h1>
-        sssssssssssssssssssssss
+    <div class="home  container">
+        首页
+        就看见乐视了dddddddddddddddddddddd的点点滴滴多多多多多多多多多多多多多多多多多多多多多的点点滴滴多多多多多多多多多多多的点点滴滴多多多多多多多多多多多多多多多多多多多多多
     </div>
 </script>
 
 <script type="text/ng-template" id="login.tpl">
-    <div>
-        <h1>登录</h1>
-        sssssssssssssssssssssss
+    <div class="home  container">
+        登录
+        就看见乐视了dddddddddddddddddddddd的点点滴滴多多多多多多多多多多多多多多多多多多多多多的点点滴滴多多多多多多多多多多多的点点滴滴多多多多多多多多多多多多多多多多多多多多多
+    </div>
+</script>
+
+<script type="text/ng-template" id="signup.tpl">
+    <div class="home  container">
+        注册
+        就看见乐视了dddddddddddddddddddddd的点点滴滴多多多多多多多多多多多多多多多多多多多多多的点点滴滴多多多多多多多多多多多的点点滴滴多多多多多多多多多多多多多多多多多多多多多
     </div>
 </script>
 </html>

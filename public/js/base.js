@@ -22,6 +22,11 @@
                     templateUrl: 'login.tpl'
 
                 })
+                .state('signup',{
+                    url:'/signup',
+                    templateUrl: 'signup.tpl'
+
+                })
 
         })
 
