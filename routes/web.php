@@ -57,7 +57,7 @@ function comment_ins()
 }
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::any('api', function () {
