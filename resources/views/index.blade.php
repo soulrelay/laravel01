@@ -85,6 +85,35 @@
                     <div class="action-set">
                         <div class="comment">评论</div>
                     </div>
+                    <div class="comment-block">
+                        <div class="hr"></div>
+                        <div class="comment-item-set">
+                            <div class="comment-item clearfix">
+                                <div class="user">
+                                    孙尚香
+                                </div>
+                                <div class="comment-content">
+                                    抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100  抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100，
+                                </div>
+                            </div>
+                            <div class="comment-item clearfix">
+                                <div class="user">
+                                    孙尚香
+                                </div>
+                                <div class="comment-content">
+                                    抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100  抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100，
+                                </div>
+                            </div>
+                            <div class="comment-item clearfix">
+                                <div class="user">
+                                    孙尚香
+                                </div>
+                                <div class="comment-content">
+                                    抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100  抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100，
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

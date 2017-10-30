@@ -26,7 +26,7 @@ h1 {
 
 .hr {
     display: block;
-    width: 96%;
+    width: 98%;
     height: 1px;
     background: #eee;
     margin: 10px auto;
@@ -82,12 +82,15 @@ h1 {
 }
 
 .container.signup,
-.container.home,
 .container.login,
 .container.question-add,
 .container.reset-password {
     width: 400px;
     margin-top: 15px;
+}
+
+.container.home{
+    width: 500px;
 }
 
 [ui-sref] {
@@ -170,12 +173,10 @@ input, button {
 
 .home h1 {
     font-size: 16px;
-    color: #666;
 }
 
 .feed-item-content .content-act {
-    font-size: 14px;
-    color: #666;
+    font-size: 12px;
 }
 
 .feed-item-content .title,
@@ -185,7 +186,7 @@ input, button {
 
 .feed-item-content .title {
     font-weight: 700;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .feed-item-content .content-owner {
@@ -193,11 +194,42 @@ input, button {
 
 }
 
-.feed-item-content  .content-owner .desc {
-    color: #666;
-}
-
-.feed-item-content  .content-main{
+.feed-item-content .content-main {
     font-size: 14px;
 }
 
+.home h1,
+.feed-item-content .content-act,
+.feed-item-content .content-owner .desc,
+.feed-item-content .action-set {
+    color: #666;
+}
+
+.feed-item-content .content-owner .desc{
+    font-size: 12px;
+}
+
+
+.feed-item-content .action-set {
+    font-size: 12px;
+}
+
+.comment-item-set {
+    /*border: 1px solid #eee;*/
+    padding: 0 10px;
+}
+
+.comment-item .user{
+    float: left;
+    width: 15%;
+    font-weight: 700;
+}
+
+.comment-item .comment-content{
+    float: right;
+    width: 85%;
+}
+
+.comment-item{
+    padding-bottom: 10px;
+}
