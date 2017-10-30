@@ -115,4 +115,8 @@ class Question extends Model
             : err('db delete failed');
 
     }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 }

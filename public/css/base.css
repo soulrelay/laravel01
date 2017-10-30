@@ -28,7 +28,7 @@ h1 {
     display: block;
     width: 98%;
     height: 1px;
-    background: #eee;
+    background: rgba(0,0,0,.08);
     margin: 10px auto;
 }
 
@@ -89,7 +89,7 @@ h1 {
     margin-top: 15px;
 }
 
-.container.home{
+.container.home {
     width: 500px;
 }
 
@@ -205,13 +205,13 @@ input, button {
     color: #666;
 }
 
-.feed-item-content .content-owner .desc{
+.feed-item-content .content-owner .desc {
     font-size: 12px;
 }
 
-
 .feed-item-content .action-set {
     font-size: 12px;
+    color: #777;
 }
 
 .comment-item-set {
@@ -219,17 +219,34 @@ input, button {
     padding: 0 10px;
 }
 
-.comment-item .user{
+.comment-item-set
+.rect {
+    position: relative;
+    bottom: 17px;
+    right: 2px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgba(0,0,0,.08);
+
+}
+
+.comment-item .user {
     float: left;
     width: 15%;
     font-weight: 700;
 }
 
-.comment-item .comment-content{
+.comment-item .comment-content {
     float: right;
     width: 85%;
 }
 
-.comment-item{
+.comment-item {
     padding-bottom: 10px;
+}
+
+.comment-block{
+    display: none;
 }

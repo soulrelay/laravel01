@@ -13,12 +13,15 @@ class CommonController extends Controller
 
         $questions = question_ins()
             ->limit($limit)
+            ->with('user')
             ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
 
         $answers = answer_ins()
             ->limit($limit)
+            ->with('users')
+            ->with('user')
             ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();

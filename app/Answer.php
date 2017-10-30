@@ -76,25 +76,26 @@ class Answer extends Model
 
         if (rq('id')) {
             $answer = $this->find(rq('id'));
-            if(!$answer){
+            if (!$answer) {
                 return err('answer not exists');
             }
 
             return ['status' => 1, 'data' => $answer];
         }
 
-        if(!question_ins()->find(rq('question_id'))){
+        if (!question_ins()->find(rq('question_id'))) {
             return err('question not exists');
         }
 
-        $answers = $this->where('question_id',rq('question_id'))
+        $answers = $this->where('question_id', rq('question_id'))
             ->get()
             ->keyBy('id');
 
         return suc(['data' => $answers]);
     }
 
-    public function remove(){
+    public function remove()
+    {
 
     }
 
@@ -110,19 +111,19 @@ class Answer extends Model
         }
 
         $answer = $this->find(rq('id'));
-        if(!$answer) return err('answer not exists');
+        if (!$answer) return err('answer not exists');
 
         /*1为赞同 2为反对*/
-        $vote = rq('vote') <= 1 ? 1: 2;
+        $vote = rq('vote') <= 1 ? 1 : 2;
         /*检查此用户是否在相同问题下投过票,如果投过票就删除投票*/
-       $answer->users()
+        $answer->users()
             ->newPivotStatement()
             ->where('user_id', session('user_id'))
-            ->where('answer_id',rq('id'))
+            ->where('answer_id', rq('id'))
             ->delete();
 
-       //在连接表中增加数据
-        $answer->users()->attach(session('user_id'),['vote' => $vote]);
+        //在连接表中增加数据
+        $answer->users()->attach(session('user_id'), ['vote' => $vote]);
 
         return suc(null);
     }
@@ -132,5 +133,10 @@ class Answer extends Model
         return $this->belongsToMany('App\User')
             ->withPivot('vote')
             ->withTimestamps();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }
