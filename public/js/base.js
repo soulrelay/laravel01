@@ -31,8 +31,9 @@
         }])
 
         .service('UserService', [
+            '$state',
             '$http',
-            function ($http) {
+            function ($state,$http) {
                 var me = this;
                 me.signup_data = {};
                 me.signup = function () {
@@ -40,6 +41,7 @@
                         .then(function (r) {
                             if(r.data.status){
                                 me.signup_data = {};
+                                $state.go('login');
                             }
                         }, function (e) {
                             console.log(e);
