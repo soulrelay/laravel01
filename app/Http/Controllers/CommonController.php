@@ -9,8 +9,10 @@ class CommonController extends Controller
 {
     public function timeline()
     {
-        list($limit, $skip) = paginate(rq('page'), rq('limit'));
-
+        //TODO 有问题 后面再分析
+        //list($limit, $skip) = paginate(rq('page'), rq('limit'));
+        $limit = 5;
+        $skip = (rq('page') ? rq('page') - 1 : 0) * $limit;
         $questions = question_ins()
             ->limit($limit)
             ->with('user')
