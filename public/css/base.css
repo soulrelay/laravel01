@@ -50,7 +50,7 @@ h1 {
     color: #fff;
 }
 
-.navbar a{
+.navbar a {
     color: #fff;
 }
 
@@ -114,19 +114,28 @@ input {
     margin-bottom: 10px;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-button{
-    border:1px solid rgba(0,0,0,0.1);
+button {
+    border: 1px solid rgba(0, 0, 0, 0.1);
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     background: #fff;
 }
 
-input,button
-{
+button.primary {
+    background: #a10;
+    color: #fff;
+}
+
+button[disabled]{
+    background: #eee;
+    color: #aaa
+}
+
+input, button {
     padding: 5px
 }
