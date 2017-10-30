@@ -58,8 +58,40 @@
 </body>
 
 <script type="text/ng-template" id="home.tpl">
-    <div class="home  container">
-        首页
+    <div class="home card container">
+        <h1>最新动态</h1>
+        <div class="hr"></div>
+        <div class="item-set">
+            <div class="item">
+                <div class="vote"></div>
+                <div class="feed-item-content">
+                    <div class="content-act">xx赞同了该回答</div>
+                    <div class="title">如果三国的吕布不死，会发生什么</div>
+                    <div class="content-owner">王大锤
+                        <span class="desc">我就是一朵花</span>
+                    </div>
+                    <div class="content-main">
+                        先介绍近期活动，再推荐书单。
+                        30号0点、10点、14点、20点京东抢图书券150-50/200-50/300-100，
+                        结合30号满减可做到300-200/400-250/600-400，
+                        抢券链接：图书文娱超级品类日 - 京东图书专题活动-京东30号0点当当抢图书券300-100，
+                        结合30号满减可做到600-400，抢券链接：店庆开门红，图书每满100减5029号领新开plus会员图书300-259券（已结束）28号—29号10点京东、
+                        当当抢图书券（已结束）
+                        ====================================
+                        2017年双十一活动从10月30日（周一）开始！
+                        2017年双十一活动从10月30日（周一）开始！
+                        2017年双十一活动从10月30日（周一）开始！
+                    </div>
+                    <div class="action-set">
+                        <div class="comment">评论</div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
 </script>
 
