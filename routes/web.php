@@ -70,35 +70,40 @@ Route::any('api', function () {
 
 //php artisan make:model User
 
-Route::any('api/signup', function () {
+Route::any('api/user/signup', function () {
     return user_ins()->signup();
 });
 
-Route::any('api/read', function () {
+Route::any('api/user/read', function () {
     return user_ins()->read();
 });
 
-Route::any('api/login', function () {
+Route::any('api/user/login', function () {
     return user_ins()->login();
 });
 
-Route::any('api/logout', function () {
+Route::any('api/user/logout', function () {
     return user_ins()->logout();
 });
 
 //修改密码
-Route::any('api/changepassword', function () {
+Route::any('api/user/changepassword', function () {
     return user_ins()->change_password();
 });
 
 //找回密码
-Route::any('api/retrieve_password', function () {
+Route::any('api/user/retrieve_password', function () {
     return user_ins()->retrieve_password();
 });
 
 //验证找回密码
-Route::any('api/validate_retrieve_password', function () {
+Route::any('api/user/validate_retrieve_password', function () {
     return user_ins()->validate_retrieve_password();
+});
+
+//用户是否存在
+Route::any('api/user/exist', function () {
+    return user_ins()->exist();
 });
 
 

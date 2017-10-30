@@ -72,7 +72,7 @@
                            ng-minlength="4"
                            ng-maxlength="16"
                            ng-model="User.signup_data.username"
-                           {{--ng-model-options="{updateOn: 'blur'}"--}}
+                           ng-model-options="{debounce: 500}"
                            required
                     >
                     <div ng-if="signup_form.username.$touched" class="input-error-set">
@@ -82,6 +82,9 @@
                         <div ng-if="signup_form.username.$error.maxlength ||
                         signup_form.username.$error.minlength"
                         >用户名长度需在4至24之间
+                        </div>
+                        <div ng-if="User.signup_username_exists">
+                         用户名已存在
                         </div>
                     </div>
 

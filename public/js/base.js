@@ -30,16 +30,46 @@
 
         }])
 
-        .service('UserService', [function () {
-            var me = this;
-            me.signup_data = {};
-            me.signup = function () {
+        .service('UserService', [
+            '$http',
+            function ($http) {
+                var me = this;
+                me.signup_data = {};
+                me.signup = function () {
+                    $http.post('api/user/signup', me.signup_data)
+                        .then(function (r) {
+                            if(r.data.status){
+                                me.signup_data = {};
+                            }
+                        }, function (e) {
+                            console.log(e);
+                        })
+                };
 
-            }
-        }])
+                me.username_exists = function () {
+                    $http.post('api/user/exist', {
+                        username: me.signup_data.username
+                    }).then(function (r) {
+                        if (r.data.status && r.data.data.count) {
+                            me.signup_username_exists = true;
+                        } else {
+                            me.signup_username_exists = false;
+                        }
+                    }, function (e) {
+                        console.log('e', e);
+                    })
+                }
+            }])
 
         .controller('SignupController', ['$scope', 'UserService', function ($scope, UserService) {
             $scope.User = UserService;
+            $scope.$watch(function () {
+                return UserService.signup_data;
+            }, function (n, o) {
+                if (n.username != o.username) {
+                    UserService.username_exists();
+                }
+            }, true)
         }])
 
 

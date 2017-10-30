@@ -45,6 +45,8 @@ class User extends Model
         $user = $this;
         $user->password = $hashed_password;
         $user->username = $username;
+        //TODO 临时处理方法：创建数据库的时候 这个设置为不可为空字段 所以需要给个默认值
+        $user->phone_captcha = '';
 
         if ($user->save()) {
             return suc(['id' => $user->id]);
@@ -257,6 +259,10 @@ class User extends Model
         //return redirect('/');
 
 
+    }
+
+    public function exist(){
+     return suc(['count' => $this->where(rq())->count()]);
     }
 
     public function answers()
