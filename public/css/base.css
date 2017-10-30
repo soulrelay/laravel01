@@ -26,7 +26,7 @@ h1 {
 
 .hr {
     display: block;
-    width: 98%;
+    max-width: 98%;
     height: 1px;
     background: rgba(0,0,0,.08);
     margin: 10px auto;
@@ -76,7 +76,7 @@ h1 {
 }
 
 .container {
-    width: 600px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -85,12 +85,12 @@ h1 {
 .container.login,
 .container.question-add,
 .container.reset-password {
-    width: 400px;
+    max-width: 400px;
     margin-top: 15px;
 }
 
 .container.home {
-    width: 500px;
+    max-width: 500px;
 }
 
 [ui-sref] {
@@ -122,7 +122,7 @@ label {
 input,
 textarea {
     display: block;
-    width: 100%;
+    max-width: 100%;
     border: 1px solid rgba(0, 0, 0, .1);
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -224,7 +224,7 @@ input, button {
     position: relative;
     bottom: 17px;
     right: 2px;
-    width: 0;
+    max-width: 0;
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
@@ -234,13 +234,13 @@ input, button {
 
 .comment-item .user {
     float: left;
-    width: 15%;
+    max-width: 15%;
     font-weight: 700;
 }
 
 .comment-item .comment-content {
     float: right;
-    width: 85%;
+    max-width: 85%;
 }
 
 .comment-item {
@@ -249,4 +249,8 @@ input, button {
 
 .comment-block{
     display: none;
+}
+
+.tac{
+    text-align: center;
 }

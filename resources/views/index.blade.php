@@ -113,6 +113,8 @@
                 </div>
                 <div class="hr"></div>
             </div>
+            <div ng-if="Timeline.pending" class="tac">加载中...</div>
+            <div ng-if="Timeline.no_more_data" class="tac">没有更多数据啦</div>
         </div>
 
 
