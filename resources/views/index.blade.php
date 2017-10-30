@@ -35,8 +35,14 @@
         </div>
         <div class="fr">
             <a ui-sref="home" class="navbar-item">首页</a>
-            <a ui-sref="login" class="navbar-item">登录</a>
-            <a ui-sref="signup" class="navbar-item">注册</a>
+            @if(is_logined_in())
+                <a class="navbar-item">{{session('username')}}</a>
+                <a href="{{url('api/user/logout')}}" class="navbar-item">登出</a>
+
+            @else
+                <a ui-sref="login" class="navbar-item">登录</a>
+                <a ui-sref="signup" class="navbar-item">注册</a>
+            @endif
         </div>
     </div>
 
@@ -176,7 +182,8 @@
                     <button type="submit"
                             ng-disabled="question_add_form.$invalid"
                             class="primary"
-                    >提交</button>
+                    >提交
+                    </button>
                 </div>
             </form>
 

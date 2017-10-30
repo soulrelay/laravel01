@@ -36,6 +36,13 @@ function suc($data_to_merge = null)
     return $data;
 }
 
+//检测用户是否登录
+function is_logined_in()
+{
+    //如果session存在user_id就返回user_id,否则就返回false
+    return session('user_id') ?: false;
+}
+
 function user_ins()
 {
     return new App\User;
