@@ -24,10 +24,14 @@
     <div class="container">
         <div class="fl">
             <div class="navbar-item brand">帅乎</div>
-            <div class="navbar-item">
-                <input type="text">
-            </div>
-
+            <form ng-submit="Question.go_add_question()" id="quick_ask" ng-controller="QuestionAddController">
+                <div class="navbar-item">
+                    <input ng-model="Question.new_question.title" type="text">
+                </div>
+                <div class="navbar-item">
+                    <button type="submit">提问</button>
+                </div>
+            </form>
         </div>
         <div class="fr">
             <a ui-sref="home" class="navbar-item">首页</a>
@@ -73,11 +77,11 @@
                            required>
                 </div>
                 <div ng-if="User.login_failed" class="input-error-set">
-                        用户名或密码有误
+                    用户名或密码有误
                 </div>
                 <div class="input-group">
                     <button type="submit" ng-disabled="login_form.username.$error.required ||
-                    login_form.password.$error.required" class="primary" >
+                    login_form.password.$error.required" class="primary">
                         登录
                     </button>
                 </div>
@@ -143,6 +147,39 @@
                 </button>
 
             </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="question.add.tpl">
+    <div ng-controller="QuestionAddController" class="question-add  container">
+        <div class="card">
+            <form name="question_add_form" ng-submit="Question.add()">
+                <div class="input-group">
+                    <label>问题标题</label>
+                    <input type="text"
+                           name="title"
+                           ng-minlength="5"
+                           ng-maxlength="255"
+                           ng-model="Question.new_question.title"
+                           required>
+                </div>
+                <div class="input-group">
+                    <label>问题描述</label>
+                    <textarea type="text"
+                              name="desc"
+                              ng-model="Question.new_question.desc"
+                    >
+                    </textarea>
+                </div>
+                <div class="input-group">
+                    <button type="submit"
+                            ng-disabled="question_add_form.$invalid"
+                            class="primary"
+                    >提交</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </script>

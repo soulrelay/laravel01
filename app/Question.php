@@ -22,7 +22,7 @@ class Question extends Model
 
         $this->title = rq('title');
         $this->user_id = session('user_id');
-        if (rq('des')) {//如果存在描述，就添加描述
+        if (rq('desc')) {//如果存在描述，就添加描述
             $this->desc = rq('desc');
         }
 

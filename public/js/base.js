@@ -27,6 +27,18 @@
                     templateUrl: 'signup.tpl'
 
                 })
+                .state('question', {
+                    abstract: true,
+                    url: '/question',
+                    // templateUrl: 'signup.tpl'
+                    template: '<div ui-view=""></div>'
+
+                })
+                .state('question.add', {
+                    url: '/add',
+                    templateUrl: 'question.add.tpl'
+
+                })
 
         }])
 
@@ -50,20 +62,19 @@
                 }
 
                 me.login = function () {
-                    $http.post('api/user/login',me.login_data)
+                    $http.post('api/user/login', me.login_data)
                         .then(function (r) {
                             console.log(r.data);
-                            if(r.data.status){
+                            if (r.data.status) {
                                 // $state.go('home');
                                 location.href = '';//刷新所有页面
-                            }else{
+                            } else {
                                 me.login_failed = true;
                             }
-                        },function (e) {
+                        }, function (e) {
 
                         })
                 }
-
 
 
                 me.username_exists = function () {
@@ -103,6 +114,40 @@
 
             }])
 
+        .service('QuestionService', [
+            '$state',
+            '$http',
+            function ($state, $http) {
+                var me = this;
+                me.new_question = {};
+                me.go_add_question = function () {
+                    $state.go('question.add');
+                }
+
+                me.add = function () {
+                    if (!me.new_question.title)
+                        return;
+                    $http.post('api/question/add', me.new_question)
+                        .then(function (r) {
+                            if(r.data.status){
+                                me.new_question = {};
+                                $state.go('home');
+                            }
+                        }, function (e) {
+
+                        })
+
+                }
+
+            }
+        ])
+        .controller('QuestionAddController', [
+            '$scope',
+            'QuestionService',
+            function ($scope, QuestionService) {
+                $scope.Question = QuestionService;
+            }
+        ])
 
     /**/
 })();
