@@ -116,8 +116,12 @@ class Answer extends Model
         $answer = $this->find(rq('id'));
         if (!$answer) return err('answer not exists');
 
-        /*1为赞同 2为反对*/
-        $vote = rq('vote') <= 1 ? 1 : 2;
+        /*1为赞同 2为反对 3为清空*/
+        $vote = rq('vote');
+        if ($vote != 1 && $vote != 2 && $vote != 3) {
+            return err('invalid vote');
+        }
+
         /*检查此用户是否在相同问题下投过票,如果投过票就删除投票*/
         $answer->users()
             ->newPivotStatement()
@@ -125,10 +129,14 @@ class Answer extends Model
             ->where('answer_id', rq('id'))
             ->delete();
 
+        if($vote == 3){
+            return suc();
+        }
+
         //在连接表中增加数据
         $answer->users()->attach(session('user_id'), ['vote' => $vote]);
 
-        return suc(null);
+        return suc();
     }
 
     public function users()

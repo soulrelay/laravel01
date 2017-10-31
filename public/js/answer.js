@@ -18,7 +18,13 @@
                         //封装单个数据
                         var votes, item = answers[i];
                         //如果没有回答也没有users元素 说明本条不是回答或回答没有任何元素
-                        if (!item['question_id'] || !item['users']) continue;
+                        if (!item['question_id'])
+                            continue;
+
+                        me.data[item.id] = item;
+
+                        if (!item['users'])
+                            continue;
                         //每条回答的默认赞同和反对票都为0
                         item.upvote_count = 0;
                         item.down_count = 0;
@@ -47,6 +53,15 @@
                     if (!conf.id || !conf.vote) {
                         console.log('id and vote are required');
                         return;
+                    }
+
+                    var answer = me.data[conf.id],
+                        users = answer.users;
+                    //判断当前用户是否已经投过相同的票
+                    for (var i = 0; i < users.length; i++) {
+                        if (users[i].id == his.id && conf.vote == users[i].pivot.vote) {
+                            conf.vote = 3;
+                        }
                     }
 
                     return $http.post('api/answer/vote', conf)

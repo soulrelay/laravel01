@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}" ng-app="shuaihu">
+<html lang="{{ app()->getLocale() }}" ng-app="shuaihu" user-id="{{session('user_id')}}">
 <head>
     <meta charset="utf-8">
     <!-- npm install angular jquery angular-ui-router normalize-css -->
