@@ -69,10 +69,10 @@
                     <div ng-if="!item.question_id" class="content-act">[: item.user.username :]添加了提问</div>
                     <div class="title">[: item.title :]</div>
                     <div class="content-owner">[: item.user.username :]
-                        <span class="desc">我就是一朵花</span>
+                        <span class="desc">[: item.user.intro:]</span>
                     </div>
-                    <div class="content-main">[: item.desc :]</div>
-                    <div class="content-main">[: item.content :]</div>
+                    <div ng-if="!item.question_id" class="content-main">[: item.desc :]</div>
+                    <div ng-if="item.question_id" class="content-main">[: item.content :]</div>
                     <div class="action-set">
                         <div class="comment">评论</div>
                     </div>
