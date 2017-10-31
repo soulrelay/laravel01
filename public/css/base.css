@@ -28,8 +28,8 @@ h1 {
     display: block;
     width: 98%;
     height: 1px;
-    background: rgba(0,0,0,.08);
-    margin: 10px auto;
+    background: rgba(0, 0, 0, .08);
+    margin: 10px 1%;
 }
 
 .clearfix:after,
@@ -175,21 +175,53 @@ input, button {
     font-size: 16px;
 }
 
-
-.feed.item .vote
-{
+.feed.item .vote {
     float: left;
     width: 10%;
 
 }
 
-.feed.item .feed-item-content{
+.feed.item .feed-item-content {
     width: 90%;
     float: left;
 }
 
-.feed.item .hr{
+.feed.item .hr {
     float: left;
+}
+
+.feed.item .vote{
+    padding: 5px;
+}
+
+.feed.item .vote > * {
+    background: rgba(200, 0, 0, .1);
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 3px;
+    margin-bottom: 2px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.feed.item .vote .up{
+    padding: 4px;
+    color: #6f0b00;
+}
+
+.feed.item .vote .up:hover{
+    background: #a10;
+    color: #fff;
+}
+
+.feed.item .vote .down{
+    background: rgba(0,0,0,.1);
+    color: #555;
+}
+
+.feed.item .vote .down:hover{
+    background: rgba(0,0,0,.7);
+    color: #fff;
 }
 
 .feed-item-content .content-act {
@@ -245,7 +277,7 @@ input, button {
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid rgba(0,0,0,.08);
+    border-bottom: 6px solid rgba(0, 0, 0, .08);
 
 }
 
@@ -264,11 +296,11 @@ input, button {
     padding-bottom: 10px;
 }
 
-.comment-block{
+.comment-block {
     display: none;
 }
 
-.tac{
+.tac {
     text-align: center;
 }
 
