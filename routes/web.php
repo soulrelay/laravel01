@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-function paginate($page = 1, $limit = 16)
+function paginate($page = 1, $limit = 2)
 {
     $skip = ($page ? $page - 1 : 0) * $limit;
     return [$limit, $skip];

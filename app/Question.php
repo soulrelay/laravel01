@@ -76,7 +76,7 @@ class Question extends Model
 
         //limit条件
         //skip条件 用于分页
-        list($limit, $skip) = paginate(rq('page', rq('limit')));
+        list($limit, $skip) = paginate(rq('page'), rq('limit'),5);
 
         //构建query并返回collection数据
         $r = $this->orderBy('created_at')
