@@ -33,13 +33,24 @@
                             me.pending = false;
                         })
                 }
+
+                me.vote = function (conf) {
+                    AnswerService.vote(conf).then(
+                        function (r) {
+                            if (r) {
+                                AnswerService.update_data(conf.id);
+                            }
+                        }
+                    )
+                }
             }
         ])
 
         .controller('HomeController', [
             '$scope',
             'TimelineService',
-            function ($scope, TimelineService) {
+            'AnswerService',
+            function ($scope, TimelineService, AnswerService) {
                 var $win;
                 $scope.Timeline = TimelineService;
                 TimelineService.get();
@@ -54,6 +65,20 @@
                         TimelineService.get();
                     }
                 })
+
+                $scope.$watch(function () {
+                    return AnswerService.data;
+                }, function (new_data, old_data) {
+                    var timeline_data = TimelineService.data;
+                    for (var k in new_data) {
+                        for (var i = 0; i < timeline_data.length; i++) {
+                            if (k == timeline_data[i].id && timeline_data[i].question_id) {
+                                timeline_data[i] = new_data[k];
+                            }
+                        }
+                    }
+                    TimelineService.data = AnswerService.count_vote(TimelineService.data);
+                }, true)
             }
         ])
 

@@ -75,7 +75,10 @@ class Answer extends Model
         }
 
         if (rq('id')) {
-            $answer = $this->find(rq('id'));
+            $answer = $this
+                ->with('user')
+                ->with('users')
+                ->find(rq('id'));
             if (!$answer) {
                 return err('answer not exists');
             }
