@@ -28,11 +28,12 @@ function err($msg = null)
     return ['status' => 0, 'msg' => $msg];
 }
 
-function suc($data_to_merge = null)
+function suc($data_to_add = null)
 {
     $data = ['status' => 1, 'data' => []];
-    if ($data_to_merge)
-        $data['data'] = array_merge($data['data'], $data_to_merge);
+    if ($data_to_add)
+//        $data['data'] = array_merge($data['data'], $data_to_merge);
+        $data['data'] = $data_to_add;
     return $data;
 }
 
@@ -172,19 +173,19 @@ Route::any('api/comment/remove', function () {
 //通用api
 Route::any('api/timeline', 'CommonController@timeline');
 
-Route::get('tpl/page/home',function (){
+Route::get('tpl/page/home', function () {
     return view('page.home');
 });
 
-Route::get('tpl/page/login',function (){
+Route::get('tpl/page/login', function () {
     return view('page.login');
 });
 
-Route::get('tpl/page/signup',function (){
+Route::get('tpl/page/signup', function () {
     return view('page.signup');
 });
 
-Route::get('tpl/page/question_add',function (){
+Route::get('tpl/page/question_add', function () {
     return view('page.question_add');
 });
 

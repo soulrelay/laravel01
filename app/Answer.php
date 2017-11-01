@@ -67,11 +67,28 @@ class Answer extends Model
 
     }
 
+    public function read_by_user_id($user_id)
+    {
+        $user = user_ins()->find($user_id);
+        if (!$user)
+            return err('user not exists');
+        $r = $this->where('user_id', $user_id)
+            ->get()->keyBy('id');
+        return suc($r->toArray());
+    }
+
     //查看回答api
     public function read()
     {
-        if (!rq('id') && !rq('question_id')) {
-            return err('id or question_id is required');
+        if (!rq('id') && !rq('question_id') && !rq('user_id')) {
+            return err('id or question_id or user_id is required');
+        }
+
+        if (rq('user_id')) {
+            $user_id = rq('user_id') === 'self'
+                ? session('user_id')
+                : rq('user_id');
+            return $this->read_by_user_id($user_id);
         }
 
         if (rq('id')) {
@@ -129,7 +146,7 @@ class Answer extends Model
             ->where('answer_id', rq('id'))
             ->delete();
 
-        if($vote == 3){
+        if ($vote == 3) {
             return suc();
         }
 
