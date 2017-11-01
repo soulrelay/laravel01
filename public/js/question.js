@@ -40,11 +40,29 @@
 
             }
         ])
-        .controller('QuestionAddController', [
+        .controller('QuestionController', [
             '$scope',
             'QuestionService',
             function ($scope, QuestionService) {
                 $scope.Question = QuestionService;
             }
         ])
+        .controller('QuestionAddController', [
+            '$scope',
+            'QuestionService',
+            function ($scope, QuestionService) {
+                //$scope.Question = QuestionService;
+            }
+        ])
+
+        .controller('QuestionDetailController', [
+            '$scope',
+            'QuestionService',
+            '$stateParams',
+            function ($scope, QuestionService, $stateParams) {
+                //$scope.Question = QuestionService;
+                QuestionService.read($stateParams);
+            }
+        ])
+
 })();

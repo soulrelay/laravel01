@@ -27,7 +27,7 @@ class Question extends Model
         }
 
         return $this->save() ?
-            suc(['id' => $this->id] ):
+            suc(['id' => $this->id]) :
             err('db insert failed');
     }
 
@@ -82,7 +82,10 @@ class Question extends Model
     {
         //请求参数中是否有id，如果有id就直接返回id所在的行
         if (rq('id'))
-            return ['status' => 1, 'data' => $this->find(rq('id'))];
+            $r = $this
+                ->with('answers')
+                ->find(rq('id'));
+        return ['status' => 1, 'data' => $r];
 
         if (rq('user_id')) {
             $user_id = rq('user_id') === 'self'
@@ -93,7 +96,7 @@ class Question extends Model
 
         //limit条件
         //skip条件 用于分页
-        list($limit, $skip) = paginate(rq('page'), rq('limit'),5);
+        list($limit, $skip) = paginate(rq('page'), rq('limit'), 5);
 
         //构建query并返回collection数据
         $r = $this->orderBy('created_at')
@@ -133,7 +136,13 @@ class Question extends Model
 
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany('App\Answer');
     }
 }
