@@ -13,7 +13,13 @@
                 me.read = function (param) {
                     return $http.post('api/user/read', param)
                         .then(function (r) {
-
+                            if (r.data.status) {
+                                if (param.id == 'self') {
+                                    me.self_data = r.data.data;
+                                } else {
+                                    me.data[param.id] = r.data.data;
+                                }
+                            }
                         })
                 }
                 me.signup = function () {
@@ -87,13 +93,13 @@
             'AnswerService',
             'QuestionService',
             'UserService',
-            function ($scope, $stateParams, AnswerService,QuestionService,UserService) {
+            function ($scope, $stateParams, AnswerService, QuestionService, UserService) {
                 $scope.User = UserService;
                 console.log('$stateParams', $stateParams);
                 UserService.read($stateParams);
                 AnswerService.read({user_id: $stateParams.id}).then(
                     function (r) {
-                        if(r){
+                        if (r) {
                             UserService.his_answers = r;
                         }
                     }
@@ -101,7 +107,7 @@
 
                 QuestionService.read({user_id: $stateParams.id}).then(
                     function (r) {
-                        if(r){
+                        if (r) {
                             UserService.his_questions = r;
                         }
                     }

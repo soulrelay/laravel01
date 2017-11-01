@@ -72,8 +72,11 @@ class Answer extends Model
         $user = user_ins()->find($user_id);
         if (!$user)
             return err('user not exists');
-        $r = $this->where('user_id', $user_id)
-            ->get()->keyBy('id');
+        $r = $this
+            ->with('question')
+            ->where('user_id', $user_id)
+            ->get()
+            ->keyBy('id');
         return suc($r->toArray());
     }
 
@@ -166,5 +169,10 @@ class Answer extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function question()
+    {
+        return $this->belongsTo('App\Question');
     }
 }
