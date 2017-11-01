@@ -102,7 +102,7 @@ class Answer extends Model
             if (!$answer) {
                 return err('answer not exists');
             }
-
+            $answer = $this->count_vote($answer);
             return ['status' => 1, 'data' => $answer];
         }
 
@@ -157,6 +157,22 @@ class Answer extends Model
         $answer->users()->attach(session('user_id'), ['vote' => $vote]);
 
         return suc();
+    }
+
+    public function count_vote($answer)
+    {
+        $upvote_count = 0;
+        $down_count = 0;
+        foreach ($answer->users as $user){
+            if($user->pivot->vote == 1){
+                $upvote_count++;
+            }else{
+                $down_count++;
+            }
+        }
+        $answer->upvote_count = $upvote_count;
+        $answer->down_count = $down_count;
+        return $answer;
     }
 
     public function users()

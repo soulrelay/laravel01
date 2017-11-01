@@ -3,7 +3,8 @@
     angular.module('answer', [])
         .service('AnswerService', [
             '$http',
-            function ($http) {
+            '$state',
+            function ($http,$state) {
                 var me = this;
                 me.data = {};
                 /**
@@ -68,6 +69,8 @@
                         .then(function (r) {
                             if (r.data.status) {
                                 return true;
+                            }else if(r.data.msg == 'login required'){
+                                $state.go('login');
                             }
                             return false;
                         }, function () {
