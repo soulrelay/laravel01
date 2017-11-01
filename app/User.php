@@ -64,7 +64,14 @@ class User extends Model
             return err('required id');
         }
 
-        $id = rq('id') === 'self' ? session('user_id') : rq('id');
+        if (rq('id') === 'self') {
+            if (!$this->is_logined_in())
+                return err('login required');
+            $id = session('user_id');
+        } else {
+            $id = rq('id');
+        }
+
 
         $get = ['id', 'username', 'avatar_url', 'intro'];
         $user = $this->find($id, $get);
