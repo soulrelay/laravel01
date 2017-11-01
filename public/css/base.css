@@ -40,6 +40,8 @@ h2 {
     margin: 10px 1%;
 }
 
+.container:after,
+.container:before,
 .clearfix:after,
 .clearfix:before {
     content: " ";
@@ -84,20 +86,27 @@ h2 {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 400px;
+    margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.container.signup,
-.container.login,
-.container.home,
-.container.user,
-.container.question-add,
-.container.reset-password {
-    max-width: 400px;
-    margin-top: 15px;
+.navbar .container{
+    max-width: 600px;
+    margin: 0 auto;
 }
+
+/*.container.signup,*/
+/*.container.login,*/
+/*.container.home,*/
+/*.container.user,*/
+/*.container.question-detail*/
+/*.container.question-add,*/
+/*.container.reset-password {*/
+    /*max-width: 400px;*/
+    /*margin-top: 15px;*/
+/*}*/
 
 .container.home {
     max-width: 500px;
@@ -326,6 +335,14 @@ h1, h2,
 
 .user.container .title{
     font-weight: 700;
+}
+
+.question-detail h1{
+    margin-bottom: 0;
+}
+
+.gray{
+    color: #999;
 }
 
 

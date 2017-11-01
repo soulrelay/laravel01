@@ -81,11 +81,12 @@ class Question extends Model
     public function read()
     {
         //请求参数中是否有id，如果有id就直接返回id所在的行
-        if (rq('id'))
+        if (rq('id')) {
             $r = $this
-                ->with('answers')
+                ->with('answers_with_user_info')
                 ->find(rq('id'));
-        return ['status' => 1, 'data' => $r];
+            return ['status' => 1, 'data' => $r];
+        }
 
         if (rq('user_id')) {
             $user_id = rq('user_id') === 'self'
@@ -144,5 +145,10 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany('App\Answer');
+    }
+
+    public function answers_with_user_info()
+    {
+        return $this->answers()->with('user');
     }
 }
