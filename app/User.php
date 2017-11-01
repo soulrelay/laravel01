@@ -63,8 +63,11 @@ class User extends Model
         if (!rq('id')) {
             return err('required id');
         }
+
+        $id = rq('id') === 'self' ? session('user_id') : rq('id');
+
         $get = ['id', 'username', 'avatar_url', 'intro'];
-        $user = $this->find(rq('id'), $get);
+        $user = $this->find($id, $get);
         $data = $user->toArray();
 
         $answer_count = answer_ins()->where('user_id', rq('id'))->count();
@@ -261,8 +264,9 @@ class User extends Model
 
     }
 
-    public function exist(){
-     return suc(['count' => $this->where(rq())->count()]);
+    public function exist()
+    {
+        return suc(['count' => $this->where(rq())->count()]);
     }
 
     public function answers()

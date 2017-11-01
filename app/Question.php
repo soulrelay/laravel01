@@ -67,12 +67,29 @@ class Question extends Model
 
     }
 
+    public function read_by_user_id($user_id)
+    {
+        $user = user_ins()->find($user_id);
+        if (!$user)
+            return err('user not exists');
+        $r = $this->where('user_id', $user_id)
+            ->get()->keyBy('id');
+        return suc($r->toArray());
+    }
+
     //查看问题api
     public function read()
     {
         //请求参数中是否有id，如果有id就直接返回id所在的行
         if (rq('id'))
             return ['status' => 1, 'data' => $this->find(rq('id'))];
+
+        if (rq('user_id')) {
+            $user_id = rq('user_id') === 'self'
+                ? session('user_id')
+                : rq('user_id');
+            return $this->read_by_user_id($user_id);
+        }
 
         //limit条件
         //skip条件 用于分页
