@@ -8,9 +8,10 @@
                 var me = this;
                 me.data = [];
                 me.current_page = 1;
+                me.no_more_data = false;
                 //获取数据
                 me.get = function (conf) {
-                    if (me.pending) return;
+                    if (me.pending || me.no_more_data) return;
                     me.pending = true;
                     conf = conf || {page: me.current_page}
                     $http.post('api/timeline', conf)
@@ -48,6 +49,12 @@
                         }
                     )
                 }
+
+                me.reset_data = function () {
+                    me.data = [];
+                    me.current_page = 1;
+                    me.no_more_data = 0;
+                }
             }
         ])
 
@@ -58,15 +65,14 @@
             function ($scope, TimelineService, AnswerService) {
                 var $win;
                 $scope.Timeline = TimelineService;
+                TimelineService.reset_data();
                 TimelineService.get();
-
                 $win = $(window);
                 $win.on('scroll', function () {
                     // console.log('$win.scrollTop',$win.scrollTop());
                     //console.log('($(document).height() - $win.height())',($(document).height() - $win.height()));
 
                     if ($win.scrollTop() - ($(document).height() - $win.height()) > -30) {
-                        if (TimelineService.no_more_data) return;
                         TimelineService.get();
                     }
                 })

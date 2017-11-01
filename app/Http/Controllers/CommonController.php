@@ -27,6 +27,7 @@ class CommonController extends Controller
 
         $answers = answer_ins()
             ->limit($limit)
+            ->with('question')
             ->with('users')
             ->with('user')
             ->skip($skip)
