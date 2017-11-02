@@ -10,13 +10,22 @@
             <div class="feed-item-content">
                 <div ng-if="item.question_id" class="content-act">[: item.user.username :]添加了回答</div>
                 <div ng-if="!item.question_id" class="content-act">[: item.user.username :]添加了提问</div>
-                <div ng-if="item.question_id" ui-sref="question.detail({id:item.question.id})" class="title">[: item.question.title:]</div>
+                <div ng-if="item.question_id" ui-sref="question.detail({id:item.question.id})" class="title">[:
+                    item.question.title:]
+                </div>
                 <div ui-sref="question.detail({id:item.id})" class="title">[: item.title :]</div>
                 <div class="content-owner">[: item.user.username :]
                     <span class="desc">[: item.user.intro:]</span>
                 </div>
                 <div ng-if="!item.question_id" class="content-main">[: item.desc :]</div>
                 <div ng-if="item.question_id" class="content-main">[: item.content :]</div>
+                <div ng-if="item.question_id" class="gray">
+                    <span ui-sref="question.detail({id: item.question_id, answer_id: item.id})"> [: item.updated_at :]
+                    </span>
+                </div>
+                <div ng-if="!item.question_id" class="gray">
+                    <span ui-sref="question.detail({id: item.id})"> [: item.updated_at :] </span>
+                </div>
                 <div class="action-set">
                     <div class="comment">评论</div>
                 </div>

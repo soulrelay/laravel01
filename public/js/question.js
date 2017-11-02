@@ -96,6 +96,11 @@
             function ($scope, QuestionService, $stateParams) {
                 //$scope.Question = QuestionService;
                 QuestionService.read($stateParams);
+                if($stateParams.answer_id){
+                    QuestionService.current_answer_id = $stateParams.answer_id;
+                }else{
+                    QuestionService.current_answer_id = null;
+                }
             }
         ])
 
